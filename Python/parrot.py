@@ -81,13 +81,5 @@ class Parrot:
         return parrot.speed()
 
     def cry(self):
-        match self._type:
-            case ParrotType.EUROPEAN:
-                parrot = EuropeanParrot()
-                return parrot.cry()
-            case ParrotType.AFRICAN:
-                parrot = AfricanParrot(self._number_of_coconuts)
-                return parrot.cry()
-            case ParrotType.NORWEGIAN_BLUE:
-                parrot = NorwegianBlueParrot(self._voltage, self._nailed)
-                return parrot.cry()
+        parrot = self._create(self._type, self._number_of_coconuts, self._voltage, self._nailed)
+        return parrot.cry()
