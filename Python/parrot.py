@@ -58,10 +58,7 @@ class NorwegianBlueParrot(IParrot):
 class Parrot:
 
     def __init__(self, type_of_parrot, number_of_coconuts, voltage, nailed):
-        self._type = type_of_parrot
-        self._number_of_coconuts = number_of_coconuts
-        self._voltage = voltage
-        self._nailed = nailed
+        self._parrot = self._create(type_of_parrot, number_of_coconuts, voltage, nailed)
 
     @staticmethod
     def _create(type_of_parrot, number_of_coconuts, voltage, nailed) -> IParrot:
@@ -77,9 +74,7 @@ class Parrot:
 
 
     def speed(self):
-        parrot = self._create(self._type, self._number_of_coconuts, self._voltage, self._nailed)
-        return parrot.speed()
+        return self._parrot.speed()
 
     def cry(self):
-        parrot = self._create(self._type, self._number_of_coconuts, self._voltage, self._nailed)
-        return parrot.cry()
+        return self._parrot.cry()
