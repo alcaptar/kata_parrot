@@ -27,12 +27,17 @@ class EuropeanParrot(IParrot):
         return "Sqoork!"
 
 class AfricanParrot(IParrot):
+    def __init__(self, number_of_coconuts: int):
+        self._number_of_coconuts = number_of_coconuts
 
     def cry(self):
         return "Sqaark!"
 
     def speed(self):
-        pass
+        return max(0, self._base_speed - self._load_factor() * self._number_of_coconuts)
+
+    def _load_factor(self):
+        return 9.0
 
 
 class Parrot:
@@ -49,7 +54,8 @@ class Parrot:
                 parrot = EuropeanParrot()
                 return parrot.speed()
             case ParrotType.AFRICAN:
-                return max(0, self._base_speed() - self._load_factor() * self._number_of_coconuts)
+                parrot = AfricanParrot(self._number_of_coconuts)
+                return parrot.speed()
             case ParrotType.NORWEGIAN_BLUE:
                 return 0 if self._nailed else self._compute_base_speed_for_voltage(self._voltage)
 
@@ -59,16 +65,13 @@ class Parrot:
                 parrot = EuropeanParrot()
                 return parrot.cry()
             case ParrotType.AFRICAN:
-                parrot = AfricanParrot()
+                parrot = AfricanParrot(self._number_of_coconuts)
                 return parrot.cry()
             case ParrotType.NORWEGIAN_BLUE:
                 return "Bzzzzzz" if self._voltage > 0 else "..."
 
     def _compute_base_speed_for_voltage(self, voltage):
         return min([24.0, voltage * self._base_speed()])
-
-    def _load_factor(self):
-        return 9.0
 
     def _base_speed(self):
         return 12.0
