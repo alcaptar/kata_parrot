@@ -8,7 +8,7 @@ class ParrotType(Enum):
     NORWEGIAN_BLUE = 3
 
 
-class IParrot(ABC):
+class Parrot(ABC):
     _base_speed: float = 12.0
 
     @abstractmethod
@@ -19,14 +19,14 @@ class IParrot(ABC):
     def cry(self):
         pass
 
-class EuropeanParrot(IParrot):
+class EuropeanParrot(Parrot):
     def speed(self):
         return self._base_speed
 
     def cry(self):
         return "Sqoork!"
 
-class AfricanParrot(IParrot):
+class AfricanParrot(Parrot):
     def __init__(self, number_of_coconuts: int):
         self._number_of_coconuts = number_of_coconuts
 
@@ -39,7 +39,7 @@ class AfricanParrot(IParrot):
     def _load_factor(self):
         return 9.0
 
-class NorwegianBlueParrot(IParrot):
+class NorwegianBlueParrot(Parrot):
     def __init__(self, voltage: int, nailed: bool):
         self._voltage = voltage
         self._nailed = nailed
@@ -55,13 +55,9 @@ class NorwegianBlueParrot(IParrot):
 
 
 
-class Parrot:
-
-    def __init__(self, type_of_parrot, number_of_coconuts, voltage, nailed):
-        self._parrot = self._create(type_of_parrot, number_of_coconuts, voltage, nailed)
-
+class ParrotFactory:
     @staticmethod
-    def _create(type_of_parrot, number_of_coconuts, voltage, nailed) -> IParrot:
+    def create(type_of_parrot, number_of_coconuts, voltage, nailed) -> Parrot:
         match type_of_parrot:
             case ParrotType.EUROPEAN:
                 return EuropeanParrot()
@@ -71,10 +67,3 @@ class Parrot:
                 return NorwegianBlueParrot(voltage, nailed)
             case _:
                 raise ValueError("Invalid parrot type")
-
-
-    def speed(self):
-        return self._parrot.speed()
-
-    def cry(self):
-        return self._parrot.cry()
