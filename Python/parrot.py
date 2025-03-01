@@ -63,17 +63,22 @@ class Parrot:
         self._voltage = voltage
         self._nailed = nailed
 
-    def speed(self):
-        match self._type:
+    @staticmethod
+    def _create(type_of_parrot, number_of_coconuts, voltage, nailed) -> IParrot:
+        match type_of_parrot:
             case ParrotType.EUROPEAN:
-                parrot = EuropeanParrot()
-                return parrot.speed()
+                return EuropeanParrot()
             case ParrotType.AFRICAN:
-                parrot = AfricanParrot(self._number_of_coconuts)
-                return parrot.speed()
+                return AfricanParrot(number_of_coconuts)
             case ParrotType.NORWEGIAN_BLUE:
-                parrot = NorwegianBlueParrot(self._voltage, self._nailed)
-                return parrot.speed()
+                return NorwegianBlueParrot(voltage, nailed)
+            case _:
+                raise ValueError("Invalid parrot type")
+
+
+    def speed(self):
+        parrot = self._create(self._type, self._number_of_coconuts, self._voltage, self._nailed)
+        return parrot.speed()
 
     def cry(self):
         match self._type:
